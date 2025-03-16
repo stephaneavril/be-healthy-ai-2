@@ -1,4 +1,5 @@
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/.env' });
+console.log("🔑 Leonardo API Key:", process.env.LEONARDO_API_KEY || "❌ No cargada");
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
