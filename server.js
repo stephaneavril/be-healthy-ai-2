@@ -1,5 +1,6 @@
-require('dotenv').config({ path: __dirname + '/.env' });
+require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 console.log("🔑 Leonardo API Key:", process.env.LEONARDO_API_KEY || "❌ No cargada");
+
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
@@ -72,7 +73,7 @@ The image should be warm, modern, and inspiring, with a balanced composition.
       await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds
       pollAttempts++;
       console.log(`Polling attempt ${pollAttempts} for generation ID ${generationId}...`);
-      
+
       const pollResponse = await axios.get(
         `https://cloud.leonardo.ai/api/rest/v1/generations/${generationId}`,
         {

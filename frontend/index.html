@@ -3,88 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Imágenes de Bienestar</title>
-    <script defer src="script.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        input, button {
-            margin: 10px;
-            padding: 10px;
-        }
-        img {
-            width: 60%;
-            margin-top: 20px;
-        }
-    </style>
+    <title>Generador de Imágenes AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Generador de Imágenes de Bienestar</h1>
-    <p>Ingresa tus respuestas para generar una imagen motivacional:</p>
-    <input id="input1" type="text" placeholder="Ejemplo: fruta">
-    <input id="input2" type="text" placeholder="Ejemplo: correr">
-    <input id="input3" type="text" placeholder="Ejemplo: meditación">
-    <input id="input4" type="text" placeholder="Ejemplo: dormir bien">
-    <br>
-    <button id="generarBtn">Generar Imagen</button>
-    <button id="imprimirBtn">🖨 Imprimir Imagen</button>
-    <p id="status"></p>
-    <img id="outputImage" src="" alt="Imagen generada aparecerá aquí">
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("generarBtn").addEventListener("click", generarImagen);
-            document.getElementById("imprimirBtn").addEventListener("click", imprimirImagen);
-        });
-
-        async function generarImagen() {
-            document.getElementById("status").innerText = "Generando imagen...";
-            const respuestas = [
-                document.getElementById("input1").value,
-                document.getElementById("input2").value,
-                document.getElementById("input3").value,
-                document.getElementById("input4").value
-            ];
-
-            if (respuestas.some(r => r.trim() === "")) {
-                alert("Todos los campos son obligatorios.");
-                document.getElementById("status").innerText = "❌ Por favor, completa todos los campos.";
-                return;
-            }
-
-            try {
-                const response = await fetch("/generate", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ respuestas })
-                });
-
-                const data = await response.json();
-                if (data.image_url) {
-                    document.getElementById("outputImage").src = data.image_url;
-                    document.getElementById("status").innerText = "✅ Imagen generada con éxito";
-                } else {
-                    throw new Error("No se pudo obtener la imagen");
-                }
-            } catch (error) {
-                console.error("Error generando la imagen:", error);
-                document.getElementById("status").innerText = "❌ Error generando la imagen";
-            }
-        }
-
-        function imprimirImagen() {
-            const imageUrl = document.getElementById("outputImage").src;
-            if (imageUrl) {
-                const printWindow = window.open("", "_blank");
-                printWindow.document.write(`<img src="${imageUrl}" style="width:100%">`);
-                printWindow.document.close();
-                printWindow.print();
-            } else {
-                alert("No hay imagen generada para imprimir.");
-            }
-        }
-    </script>
+    <div class="container">
+        <header>
+            <h1>Generador de Imágenes AI</h1>
+        </header>
+        <section class="form-section">
+            <div class="form-group">
+                <label id="input1-label">¿Qué alimento saludable prefieres?</label>
+                <input id="input1" type="text" placeholder="Ejemplo: Fruta fresca">
+            </div>
+            <div class="form-group">
+                <label id="input2-label">¿Qué actividad física disfrutas?</label>
+                <input id="input2" type="text" placeholder="Ejemplo: Correr o Yoga">
+            </div>
+            <div class="form-group">
+                <label id="input3-label">¿Cómo cuidas tu salud mental?</label>
+                <input id="input3" type="text" placeholder="Ejemplo: Meditación">
+            </div>
+            <div class="form-group">
+                <label id="input4-label">¿Qué haces para descansar adecuadamente?</label>
+                <input id="input4" type="text" placeholder="Ejemplo: Dormir 8 horas">
+            </div>
+            <button id="generarBtn">Generar Imagen</button>
+            <div id="status">
+                <span class="spinner"></span> Generando imagen, por favor espere...
+            </div>
+        </section>
+        <section class="result-section">
+            <div id="imageContainer">
+                <img id="outputImage" src="" alt="Imagen generada aparecerá aquí">
+                <button id="printButton">Imprimir</button>
+            </div>
+        </section>
+        <footer>
+            <p>© 2025 Generador de Imágenes TEAMS AI. https://www.teams.com.mx Todos los derechos reservados.</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
